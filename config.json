@@ -1,0 +1,7 @@
+{
+    "server": "DESKTOP-G99F35S",
+    "database": "sensorsdb",
+    "options":{
+        "trustedConnection": true
+    }
+}

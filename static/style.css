@@ -1,0 +1,24 @@
+header {
+    width: 100%;
+    margin: 10px auto;
+}
+
+header p {
+    text-align: center;
+    font-weight: bold;
+}
+
+.controllers {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.controllers input:not(:first-child) {
+    margin-left: 5px;
+}
+
+.controllers input {
+    max-width: 150px;
+    white-space: normal;
+}

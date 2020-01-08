@@ -1,0 +1,9 @@
+ALTER TABLE sensorsdb.dbo.Sensors
+ADD 
+	CONSTRAINT FK_SENSORS_REGIONS FOREIGN KEY (numRegion) REFERENCES sensorsdb.dbo.Regions (numRegion) 
+	ON DELETE CASCADE;
+
+ALTER TABLE sensorsdb.dbo.Sensors
+ADD		
+	CONSTRAINT FK_SENSORS_INDICATIONS FOREIGN KEY (numS) REFERENCES sensorsdb.dbo.Indications (numS) 
+	ON DELETE CASCADE;
