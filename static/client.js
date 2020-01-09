@@ -46,7 +46,7 @@
                         startTime: startTime.value,
                         endTime: endTime.value,
                     };
-
+                    event.target.setAttribute("disabled", true);
                     const response = await fetch("/api/rangeTemp", 
                         { method: "POST", body: JSON.stringify(validBody), 
                         cache: 'no-cache',
@@ -57,6 +57,7 @@
 
                     if (response.ok){
                         const result = JSON.parse(await response.json());
+                        event.target.removeAttribute("disabled");
                         content.innerHTML = result.reduce((html, current) => {
                             const newHtml = html + `
                             <div>
