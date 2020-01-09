@@ -24,19 +24,27 @@
                 value = "выборка диапазона значений температур"
             />
         </div>
-        <input
+        <div class = "controlerBox">            
+            <span>startTime: <input class="startTimeMaxMin" type = "time"  /></span>
+            <span>endTime: <input class="endTimeMaxMin" type = "time"  /></span>
+            <input
+                type = "button"
+                class = "loadMaxMinTemp"
+                value = "определение минимума и максимума значений температур"
+            />
+        </div>
+        <div class = "controlerBox">  
+           <span>Номер региона:</span>
+           <input class="regionNumber" type = 'number' />
+            <input
             type = "button"
-            class = "loadMaxMinTemp"
-            value = "определение минимума и максимума значений температур"
-        />
+            class = "loadLocation"
+            value = "определение территориального размещения датчиков"
+            />
+        </div>
         <input
             type = "button"
             class = "loadMiddleValue"
             value = "определение отклонения значений температур от среднего показателя"
-        />
-        <input
-            type = "button"
-            class = "loadLocation"
-            value = "определение территориального размещения датчиков"
         />
     </div>

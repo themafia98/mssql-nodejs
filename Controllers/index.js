@@ -41,6 +41,68 @@ module.exports = function(route, db){
         }
     });
 
+    route.post("/minMaxTemp", async (req, res) => {
+        try {
+            const {  startTime = null, endTime = null  } = req.body;
+    
+            if (!startTime || !endTime){
+                return res.sendStatus(403);
+           }
+
+            const connect = await db.connect();
+            if (!connect) return res.sendStatus(503);
+  
+            const result = await connect.request()
+                .input('startTime', startTime)
+                .input('endTime', endTime)
+                .execute('GET_MIN_MAX_TEMP');
+
+            const isValid = result && Array.isArray(result.recordset)
+            db.close();
+            
+            if (isValid) {
+                return res.status(200).json(JSON.stringify(result.recordset));
+            }
+            else return res.sendStatus(404);
+
+
+        } catch(err){
+            console.error(err);
+            if (!res.headersSent) res.sendStatus(500);
+        }
+    });
+
+    
+    route.post("/sensorLocation", async (req, res) => {
+        try {
+            const { regionNumber = null  } = req.body;
+    
+            if (!regionNumber && regionNumber !== 0){
+                return res.sendStatus(403);
+           }
+
+            const connect = await db.connect();
+            if (!connect) return res.sendStatus(503);
+  
+            const result = await connect.request()
+                .input('regionNumber', regionNumber)
+                .execute('GET_LOCATION');
+
+            const isValid = result && Array.isArray(result.recordset)
+            db.close();
+            
+            if (isValid) {
+                return res.status(200).json(JSON.stringify(result.recordset));
+            }
+            else return res.sendStatus(404);
+
+
+        } catch(err){
+            console.error(err);
+            if (!res.headersSent) res.sendStatus(500);
+        }
+    });
+
     route.get("/calcTemp", async (req, res) => {
         try {
         const connect = await db.connect();

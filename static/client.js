@@ -25,6 +25,7 @@
                 }
 
                 } catch (error){
+                    event.target.removeAttribute("disabled");
                     setError(error, event, content);
                 }
                 return;
@@ -71,6 +72,119 @@
                     }
 
                 } catch(error){
+                    event.target.removeAttribute("disabled");
+                    setError(error, event, content);
+                }
+            } else if (event.target.className === "loadMaxMinTemp"){
+                try {
+                    const startTime = document.querySelector(".startTimeMaxMin");
+                    const endTime = document.querySelector(".endTimeMaxMin");
+
+                    if (!startTime.value || !endTime.value) return;
+
+                    const validBody = {
+                        startTime: startTime.value,
+                        endTime: endTime.value,
+                    };
+                    event.target.setAttribute("disabled", true);
+                    const response = await fetch("/api/minMaxTemp", 
+                        { method: "POST", body: JSON.stringify(validBody), 
+                        cache: 'no-cache',
+                        headers:{
+                            'Content-Type': "application/json"
+                        }
+                        });
+
+                    if (response.ok){
+                        const result = JSON.parse(await response.json());
+                        event.target.removeAttribute("disabled");
+                        content.innerHTML = result.reduce((html, current) => {
+                            const newHtml = html + `
+                            <div>
+                                <p>minTemp: ${current.minTemp.trim()}</p>
+                                <p>maxTemp: ${current.maxTemp.trim()}</p>
+                            </div>
+                            `;
+                            return newHtml;
+                        },"");
+                    }
+
+                } catch(error){
+                    event.target.removeAttribute("disabled");
+                    setError(error, event, content);
+                }
+            } else if (event.target.className === "loadLocation"){
+                try {
+                    const regionNumberVal = document.querySelector(".regionNumber");
+                    const regionNumber = regionNumberVal ? Number(regionNumberVal.value) : null; 
+                    if (!regionNumber  || isNaN(regionNumber) || regionNumber < 0) return;
+
+                    const validBody = {
+                        regionNumber
+                    };
+                    event.target.setAttribute("disabled", true);
+                    const response = await fetch("/api/sensorLocation", 
+                        { method: "POST", body: JSON.stringify(validBody), 
+                        cache: 'no-cache',
+                        headers:{
+                            'Content-Type': "application/json"
+                        }
+                        });
+
+                    if (response.ok){
+                        const result = JSON.parse(await response.json());
+                        event.target.removeAttribute("disabled");
+                        content.innerHTML = result.reduce((html, current) => {
+                            const newHtml = html + `
+                            <div>
+                                <p>sensorName: ${current.sensorName.trim()}</p>
+                                <p>region: ${current.region.trim()}</p>
+                            </div>
+                            `;
+                            return newHtml;
+                        },"");
+                    }
+
+                } catch(error){
+                    event.target.removeAttribute("disabled");
+                    setError(error, event, content);
+                }
+            } else if (event.target.className === "loadMaxMinTemp"){
+                try {
+                    const startTime = document.querySelector(".startTimeMaxMin");
+                    const endTime = document.querySelector(".endTimeMaxMin");
+
+                    if (!startTime.value || !endTime.value) return;
+
+                    const validBody = {
+                        startTime: startTime.value,
+                        endTime: endTime.value,
+                    };
+                    event.target.setAttribute("disabled", true);
+                    const response = await fetch("/api/minMaxTemp", 
+                        { method: "POST", body: JSON.stringify(validBody), 
+                        cache: 'no-cache',
+                        headers:{
+                            'Content-Type': "application/json"
+                        }
+                        });
+
+                    if (response.ok){
+                        const result = JSON.parse(await response.json());
+                        event.target.removeAttribute("disabled");
+                        content.innerHTML = result.reduce((html, current) => {
+                            const newHtml = html + `
+                            <div>
+                                <p>minTemp: ${current.minTemp.trim()}</p>
+                                <p>maxTemp: ${current.maxTemp.trim()}</p>
+                            </div>
+                            `;
+                            return newHtml;
+                        },"");
+                    }
+
+                } catch(error){
+                    event.target.removeAttribute("disabled");
                     setError(error, event, content);
                 }
             }
