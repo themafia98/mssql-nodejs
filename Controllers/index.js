@@ -88,7 +88,8 @@ module.exports = function(route, db){
                 .input('regionNumber', regionNumber)
                 .execute('GET_LOCATION');
 
-            const isValid = result && Array.isArray(result.recordset)
+            const isValid = result && Array.isArray(result.recordset);
+            
             db.close();
             
             if (isValid) {
