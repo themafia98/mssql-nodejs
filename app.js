@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const Database = require("./Models/Database");
 const controllers = require("./Controllers");
 const config = require("./config.json");
@@ -8,7 +9,12 @@ const moment = require("moment");
 const app = express();
 const port = process.env.PORT || 8080;
 
+
 app.use(express.static(__dirname + "/static"));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
 app.engine("ejs", require("ejs").__express);
 app.set("view engine", "ejs");
@@ -18,6 +24,7 @@ app.listen(port, () => {
 });
 
 const router = express.Router();
+
 const db = new Database(config);
 app.use("/api", router);
 controllers(router, db);
@@ -50,7 +57,6 @@ app.get("/", async (req, res) => {
                 indications: parseIndications,
                 regions: Array.isArray(regions.recordsets[0]) ? regions.recordsets[0] : [],
                 sensors: Array.isArray(sensors.recordsets[0]) ? sensors.recordsets[0] : [],
-                procedureResult: null,
         });
     } catch(err){
         if (!res.headersSent) res.render("index", { error: "Server error" });

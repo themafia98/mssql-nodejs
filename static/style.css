@@ -11,9 +11,23 @@ header p {
     font-weight: bold;
 }
 
+input {
+    margin-top: 3px;
+}
+
 header input {
     width: 50px;
     padding: 0;
+
+}
+
+.controlerBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.controlerBox input {
+    width: 100%;
 }
 
 .controllers {
@@ -28,6 +42,7 @@ header input {
 
 .controllers input {
     max-width: 150px;
+    max-height: 70px;
     white-space: normal;
 }
 
@@ -71,10 +86,16 @@ header input {
 
 .procedureResult {
     display: flex;
+    overflow-x: auto;
     border: 1px solid black;
     padding: 10px;
+    width: 100%;
     align-items: center;
+    margin: 0 auto;
     min-height: 185px;
     background-color: #cafad024;
-    justify-content: center;
+}
+
+.procedureResult div {
+    margin: 5px;
 }

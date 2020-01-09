@@ -5,9 +5,11 @@
         <p class = "error"><%=error %></p>
     <%} %>
     <p class="title proc">Procedure result</p>
+    <div style = "max-width: 1140px; margin: 0 auto;">
     <div class="procedureResult">
             NO RESULT
     </div>
+</div>
     <% if (Array.isArray(sensors) && sensors.length) {%>
         <p class="title">dbo.Sensors</p>
     <div class="Indications">
