@@ -37,7 +37,7 @@ module.exports = function(route, db){
 
         } catch(err){
             console.error(err);
-            if (res.headersSent) res.sendStatus(500);
+            if (!res.headersSent) res.sendStatus(500);
         }
     });
 
