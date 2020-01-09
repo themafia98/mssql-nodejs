@@ -21,12 +21,6 @@ module.exports = class Database {
     async close(){
         if (this.connection) this.connection.close();
     }
-
-    async query(queryString){
-        if (this.connection)
-        return await this.connection.query`${queryString}`;
-        else return null;
-    }
 };
 
        // const connection = await mssql.connect(config);

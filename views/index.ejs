@@ -1,7 +1,55 @@
 <%- include("./chunks/header"); -%>
 
 <div class="root">
-    
+    <% if (error) {%>
+        <p class = "error"><%=error %></p>
+    <%} %>
+    <p class="title proc">Procedure result</p>
+    <div class="procedureResult">
+        <% if (procedureResult) { %>
+        <%} else { %>
+            <span>NO RESULT</span>
+        <%} %>
+    </div>
+    <% if (Array.isArray(sensors) && sensors.length) {%>
+        <p class="title">dbo.Sensors</p>
+    <div class="Indications">
+        <% for (let i = 0; i < sensors.length; i++){ %>
+            <div class="ind_item">
+                <p>numS: <%=sensors[i].numS %></p>
+                <p>numRegion: <%= sensors[i].numRegion %></p>
+                <p>name: <%= typeof sensors[i].name === 'string' ? sensors[i].name.trim() : "" %></p>
+                <p>longitude: <%= sensors[i].longitude %></p>
+                <p>latitude: <%= sensors[i].latitude %></p>
+            </div>
+        <%} %>
+    </div>
+    <%} %>
+    <% if (Array.isArray(indications) && indications.length) {%>
+        <p class="title">dbo.Indications</p>
+    <div class="Indications">
+        <% for (let i = 0; i < indications.length; i++){ %>
+            <div class="ind_item">
+                <p>Num: <%=indications[i].numInd %></p>
+                <p>NumS: <%= indications[i].numS %></p>
+                <p>dateInd: <%=indications[i].dateInd %></p>
+                <p>timeInd: <%=indications[i].timeInd %></p>
+                <p>temp: <%=indications[i].temp %></p>
+            </div>
+        <%} %>
+    </div>
+    <%} %>
+    <% if (Array.isArray(regions) && regions.length) {%>
+        <p class="title">dbo.Regions</p>
+    <div class="Indications">
+        <% for (let i = 0; i < regions.length; i++){ %>
+            <div class="ind_item">
+                <p>numRegion: <%=regions[i].numRegion %></p>
+                <p>nameRegion: <%= regions[i].nameRegion %></p>
+            </div>
+        <%} %>
+    </div>
+    <%} %>
 </div>
 
 <%- include("./chunks/footer"); -%>

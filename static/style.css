@@ -22,3 +22,50 @@ header p {
     max-width: 150px;
     white-space: normal;
 }
+
+.error {
+    text-align: center;
+}
+
+.Indications {
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid black;
+    margin-top: 10px;
+}
+
+.Indications .ind_item {
+    width: 100%;
+    padding-left: 5px;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.title.proc {
+    color: red;
+}
+
+.Indications .ind_item:nth-child(even){
+    border: 0.5px solid black;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.Indications .ind_item:first-child {
+    border-left: 0;
+}
+
+.procedureResult {
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    align-items: center;
+    min-height: 185px;
+    background-color: #cafad024;
+    justify-content: center;
+}
