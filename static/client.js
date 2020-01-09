@@ -8,16 +8,18 @@
 
             if (event.target.className === "loadMiddleValue"){
                 try {
+                event.target.setAttribute("disabled", true);
                 const response = await fetch("/api/calcTemp");
                 
                 if (response.ok){
                     const body = JSON.parse(await response.json());
-
+                    event.target.removeAttribute("disabled");
                     content.innerHTML = body.result ? body.result : JSON.stringify(body);
                 }
 
                 } catch (error){
                     console.error(error);
+                    event.target.removeAttribute("disabled");
                     content.innerHTML = "Error request";
                 }
                 return;
