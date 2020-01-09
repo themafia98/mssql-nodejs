@@ -29,10 +29,10 @@ module.exports = function(route, db){
         
         if (isValid) return res.status(200).json(JSON.stringify(calcResult.recordset[0]));
         else return res.sendStatus(404);
-        
+
         } catch(err){
             console.error(err);
-            if (res.headersSent) res.sendStatus(500);
+            if (!res.headersSent) res.sendStatus(500);
         }
     });
 }

@@ -37,7 +37,7 @@ app.get("/", async (req, res) => {
         parseIndications = Array.isArray(indications.recordsets[0]) ? indications.recordsets[0].map(it => {
             
             const dateInd = it.dateInd ? moment(it.dateInd.toString()).format("DD-MM-YYYY") : null;
-            const timeInd = it.timeInd ? moment(it.timeInd.toString()).hours() : null;
+            const timeInd = it.timeInd ? moment(it.timeInd.toString()).format("hh:mm") : null;
             return {
                 ...it,
                 dateInd,
@@ -53,7 +53,7 @@ app.get("/", async (req, res) => {
                 procedureResult: null,
         });
     } catch(err){
-        if (res.headersSent) res.render("index", { error: "Server error" });
+        if (!res.headersSent) res.render("index", { error: "Server error" });
     }
 });
 
