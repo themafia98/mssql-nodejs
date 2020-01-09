@@ -65,6 +65,7 @@
                                 <p>nameSensor: ${current.nameSensor.trim()}</p>
                                 <p>date: ${current.date.trim()}</p>
                                 <p>time: ${current.time.trim()}</p>
+                                <p>temp: ${current.temp.trim()}</p>
                             </div>
                             `;
                             return newHtml;
