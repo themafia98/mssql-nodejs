@@ -149,44 +149,6 @@
                     event.target.removeAttribute("disabled");
                     setError(error, event, content);
                 }
-            } else if (event.target.className === "loadMaxMinTemp"){
-                try {
-                    const startTime = document.querySelector(".startTimeMaxMin");
-                    const endTime = document.querySelector(".endTimeMaxMin");
-
-                    if (!startTime.value || !endTime.value) return;
-
-                    const validBody = {
-                        startTime: startTime.value,
-                        endTime: endTime.value,
-                    };
-                    event.target.setAttribute("disabled", true);
-                    const response = await fetch("/api/minMaxTemp", 
-                        { method: "POST", body: JSON.stringify(validBody), 
-                        cache: 'no-cache',
-                        headers:{
-                            'Content-Type': "application/json"
-                        }
-                        });
-
-                    if (response.ok){
-                        const result = JSON.parse(await response.json());
-                        event.target.removeAttribute("disabled");
-                        content.innerHTML = result.reduce((html, current) => {
-                            const newHtml = html + `
-                            <div>
-                                <p>minTemp: ${current.minTemp.trim()}</p>
-                                <p>maxTemp: ${current.maxTemp.trim()}</p>
-                            </div>
-                            `;
-                            return newHtml;
-                        },"");
-                    }
-
-                } catch(error){
-                    event.target.removeAttribute("disabled");
-                    setError(error, event, content);
-                }
             }
         }, false);
 
