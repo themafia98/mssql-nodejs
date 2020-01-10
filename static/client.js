@@ -30,7 +30,7 @@
                 }
                 return;
             } else if (event.target.className === "reset"){
-                content.innerHTML = "NO RESULT";
+                content.innerHTML = "NO DATA";
             } else if (event.target.className === "loadTemp"){
                 try {
 
@@ -59,17 +59,18 @@
                     if (response.ok){
                         const result = JSON.parse(await response.json());
                         event.target.removeAttribute("disabled");
-                        content.innerHTML = result.reduce((html, current) => {
-                            const newHtml = html + `
-                            <div>
-                                <p>nameSensor: ${current.nameSensor.trim()}</p>
-                                <p>date: ${current.date.trim()}</p>
-                                <p>time: ${current.time.trim()}</p>
-                                <p>temp: ${current.temp.trim()}</p>
-                            </div>
-                            `;
+                        content.innerHTML = result.length ? result.reduce((html, current) => {
+                            const newHtml = html + current.nameSensor && current.time &&
+                                current.temp ? `
+                                <div>
+                                    <p>nameSensor: ${current.nameSensor.trim()}</p>
+                                    <p>date: ${current.date.trim()}</p>
+                                    <p>time: ${current.time.trim()}</p>
+                                    <p>temp: ${current.temp.trim()}</p>
+                                </div>
+                                ` : "Not found";
                             return newHtml;
-                        },"");
+                        },"") : "Not found";
                     }
 
                 } catch(error){
@@ -100,12 +101,12 @@
                         const result = JSON.parse(await response.json());
                         event.target.removeAttribute("disabled");
                         content.innerHTML = result.reduce((html, current) => {
-                            const newHtml = html + `
+                            const newHtml = html + current.minTemp && current.maxTemp ? `
                             <div>
                                 <p>minTemp: ${current.minTemp.trim()}</p>
                                 <p>maxTemp: ${current.maxTemp.trim()}</p>
                             </div>
-                            `;
+                            ` : "Not found";
                             return newHtml;
                         },"");
                     }
@@ -135,15 +136,15 @@
                     if (response.ok){
                         const result = JSON.parse(await response.json());
                         event.target.removeAttribute("disabled");
-                        content.innerHTML = result.reduce((html, current) => {
-                            const newHtml = html + `
+                        content.innerHTML = result.length ? result.reduce((html, current) => {
+                            const newHtml = html + current.sensorName && current.region ? `
                             <div>
                                 <p>sensorName: ${current.sensorName.trim()}</p>
                                 <p>region: ${current.region.trim()}</p>
                             </div>
-                            `;
+                            ` : "Not found";
                             return newHtml;
-                        },"");
+                        },"") : "Not found";
                     }
 
                 } catch(error){
