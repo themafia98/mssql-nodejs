@@ -4,15 +4,16 @@
     <% if (error) {%>
         <p class = "error"><%=error %></p>
     <%} %>
-    <p class="title proc">Procedure result</p>
+    <p class="title proc">Результат выполнения процедуры</p>
     <div style = "max-width: 1140px; margin: 0 auto;">
     <div class="procedureResult">
-            NO RESULT
+            NO DATA
     </div>
 </div>
+<section class="tables">
     <% if (Array.isArray(sensors) && sensors.length) {%>
         <p class="title">dbo.Sensors</p>
-    <div class="Indications">
+    <div class="sensors table">
         <% for (let i = 0; i < sensors.length; i++){ %>
             <div class="ind_item">
                 <p>numS: <%=sensors[i].numS %></p>
@@ -26,7 +27,7 @@
     <%} %>
     <% if (Array.isArray(indications) && indications.length) {%>
         <p class="title">dbo.Indications</p>
-    <div class="Indications">
+    <div class="indications table">
         <% for (let i = 0; i < indications.length; i++){ %>
             <div class="ind_item">
                 <p>Num: <%=indications[i].numInd %></p>
@@ -40,7 +41,7 @@
     <%} %>
     <% if (Array.isArray(regions) && regions.length) {%>
         <p class="title">dbo.Regions</p>
-    <div class="Indications">
+    <div class="regions table">
         <% for (let i = 0; i < regions.length; i++){ %>
             <div class="ind_item">
                 <p>numRegion: <%=regions[i].numRegion %></p>
@@ -49,6 +50,7 @@
         <%} %>
     </div>
     <%} %>
+</section>
 </div>
 
 <%- include("./chunks/footer"); -%>

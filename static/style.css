@@ -23,10 +23,22 @@ header input {
 
 .controlerBox {
     display: flex;
+    border: 1px solid black;
+    align-items: center;
+    padding: 10px;
     flex-direction: column;
+    margin: 5px;
+}
+
+.controlerBox span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .controlerBox input {
+    text-align: center;
     width: 100%;
 }
 
@@ -36,9 +48,6 @@ header input {
     justify-content: center;
 }
 
-.controllers input:not(:first-child) {
-    margin-left: 5px;
-}
 
 .controllers input {
     max-width: 150px;
@@ -50,18 +59,40 @@ header input {
     text-align: center;
 }
 
-.Indications {
+.tables {
+    margin: 0 auto;
+    max-width: 1140px;
+}
+
+.table {
     display: flex;
-    justify-content: space-evenly;
-    border: 1px solid black;
+    flex-wrap: wrap;
+    justify-content: start;
     margin-top: 10px;
 }
 
-.Indications .ind_item {
+.table .ind_item {
+    flex: 0 0 15%;
+    border: .5px solid black;
     width: 100%;
     padding-left: 5px;
-    border-top: 0;
-    border-bottom: 0;
+    margin: 5px;
+}
+
+.indications .ind_item {
+    background-color:  rgb(231, 248, 255);
+}
+
+.sensors .ind_item {
+    background-color:  rgb(245, 251, 254);
+}
+
+.ind_item p {
+    margin: 1px;
+}
+
+.regions .ind_item {
+    background-color:  rgb(185, 234, 255);
 }
 
 .title {
@@ -73,29 +104,24 @@ header input {
     color: red;
 }
 
-.Indications .ind_item:nth-child(even){
-    border: 0.5px solid black;
-    border-top: 0;
-    border-bottom: 0;
-}
-
-.Indications .ind_item:first-child {
-    border-left: 0;
-}
-
 
 .procedureResult {
     display: flex;
-    overflow-x: auto;
+    flex-wrap: wrap;
     border: 1px solid black;
     padding: 10px;
     width: 100%;
-    align-items: center;
     margin: 0 auto;
-    min-height: 185px;
     background-color: #cafad024;
 }
 
 .procedureResult div {
+    flex: 20%;
     margin: 5px;
+    padding: 1px;
+    border: .5px solid black;
+}
+
+.procedureResult div p {
+    margin: 1px;
 }
