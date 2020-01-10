@@ -22,14 +22,15 @@ module.exports = function(route, db){
             const isValid = result && Array.isArray(result.recordset)
             db.close();
 
-            
             if (isValid) {
                 const parseData = result.recordset.map(it => {
             
                     const date = it.date ? moment(it.date.toString()).format("DD-MM-YYYY") : null;
                     const time = it.time ? moment(it.time.toString()).format("hh:mm") : null;
+
                     return { ...it, date, time };
                 });
+
                 return res.status(200).json(JSON.stringify(parseData));
             }
             else return res.sendStatus(404);
@@ -47,7 +48,7 @@ module.exports = function(route, db){
     
             if (!startTime || !endTime){
                 return res.sendStatus(403);
-           }
+            }
 
             const connect = await db.connect();
             if (!connect) return res.sendStatus(503);
@@ -89,14 +90,12 @@ module.exports = function(route, db){
                 .execute('GET_LOCATION');
 
             const isValid = result && Array.isArray(result.recordset);
-            
             db.close();
             
-            if (isValid) {
+            if (isValid){
                 return res.status(200).json(JSON.stringify(result.recordset));
             }
             else return res.sendStatus(404);
-
 
         } catch(err){
             console.error(err);
@@ -106,16 +105,16 @@ module.exports = function(route, db){
 
     route.get("/calcTemp", async (req, res) => {
         try {
-        const connect = await db.connect();
-        if (!connect) return res.sendStatus(503);
+            const connect = await db.connect();
+            if (!connect) return res.sendStatus(503);
 
-        const calcResult = await connect.request().execute("GET_CALC");
-        const isValid = calcResult && Array.isArray(calcResult.recordset) && calcResult.recordset.length;
-        db.close();
-        
-        
-        if (isValid) return res.status(200).json(JSON.stringify(calcResult.recordset[0]));
-        else return res.sendStatus(404);
+            const calcResult = await connect.request().execute("GET_CALC");
+            const isValid = calcResult && Array.isArray(calcResult.recordset) && calcResult.recordset.length;
+            db.close();
+            
+            
+            if (isValid) return res.status(200).json(JSON.stringify(calcResult.recordset[0]));
+            else return res.sendStatus(404);
 
         } catch(err){
             console.error(err);

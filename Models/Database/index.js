@@ -9,9 +9,9 @@ module.exports = class Database {
 
     async connect(){
         try {
-        this.connection = await mssql.connect(this.config);
-        console.log("Node.js server connected to mssql server");
-        return this.connection;
+            this.connection = await mssql.connect(this.config);
+            console.log("Node.js server connected to mssql server");
+            return this.connection;
         } catch(err) {
             console.error(err);
             return null;
@@ -19,22 +19,8 @@ module.exports = class Database {
     }
 
     async close(){
-        if (this.connection) this.connection.close();
+        if (this.connection){
+            this.connection.close();
+        }
     }
 };
-
-       // const connection = await mssql.connect(config);
-
-        // close connect connection.close();
-
-        /** procedure call example
-             const result = await pool.request()
-            .input('input_parameter', sql.Int, value)
-            .output('output_parameter', sql.VarChar(50))
-            .execute('procedure_name');
-            console.log(result);
-         */
-
-         /** simple query example
-            const result = await sql.query`SELECT * FROM dbo.Indications`;
-        */
