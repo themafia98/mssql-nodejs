@@ -137,12 +137,12 @@
                         const result = JSON.parse(await response.json());
                         event.target.removeAttribute("disabled");
                         content.innerHTML = result.length ? result.reduce((html, current) => {
-                            const newHtml = html + current.sensorName && current.region ? `
+                            const newHtml = html + `
                             <div>
                                 <p>sensorName: ${current.sensorName.trim()}</p>
                                 <p>region: ${current.region.trim()}</p>
                             </div>
-                            ` : "Not found";
+                            `;
                             return newHtml;
                         },"") : "Not found";
                     }
