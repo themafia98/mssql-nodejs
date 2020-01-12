@@ -33,6 +33,8 @@ module.exports = function(route, db){
                     const pivot = arrTime.findIndex(it => it && it === "T");
                     const time = pivot !== -1 ? arrTime.splice(pivot + 1, 5).join("").replace(/\,/gi,"") : null;
 
+                    if (!time) return null;
+
                     const timeNumber = Number(time.replace(/\D+/gi, ""));
                     const startTimeNumber = Number(startTime.replace(/\D+/gi, ""));
                     const endTimeNumber = Number(endTime.replace(/\D+/gi, ""));
