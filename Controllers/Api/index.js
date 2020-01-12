@@ -44,7 +44,7 @@ module.exports = function(route, db){
 
                     if (!isValidTime) return null;
                     return { ...it, date, time: time };
-                });
+                }).filter(Boolean);
                 
                 return res.status(200).json(JSON.stringify(parseData));
             }
