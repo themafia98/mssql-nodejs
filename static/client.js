@@ -60,16 +60,17 @@
                         const result = JSON.parse(await response.json());
                         event.target.removeAttribute("disabled");
                         content.innerHTML = result.length ? result.reduce((html, current) => {
-                            const newHtml = html + current.nameSensor && current.time &&
-                                current.temp ? `
+                            if (!current.nameSensor || !current.date || !current.time || !current.temp){
+                                return html + `<div>Invalid data</div>`;
+                            }
+                            return html + `
                                 <div>
                                     <p>nameSensor: ${current.nameSensor.trim()}</p>
                                     <p>date: ${current.date.trim()}</p>
                                     <p>time: ${current.time.trim()}</p>
                                     <p>temp: ${current.temp.trim()}</p>
                                 </div>
-                                ` : "Not found";
-                            return newHtml;
+                                `;
                         },"") : "Not found";
                     }
 

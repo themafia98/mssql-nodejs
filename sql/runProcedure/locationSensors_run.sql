@@ -1,4 +1,4 @@
-USE [usersdb]
+USE [sensorsdb]
 GO
 
 DECLARE	@return_value int

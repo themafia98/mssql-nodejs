@@ -11,12 +11,13 @@ module.exports = function(route, db){
 
             const connect = await db.connect();
             if (!connect) return res.sendStatus(503);
-  
+
+
             const result = await connect.request()
-                .input('startDate', moment(startDate.toString()).format("YYYY-MM-DD"))
-                .input('endDate',  moment(endDate.toString()).format("YYYY-MM-DD"))
-                .input('startTime', moment(startTime.toString()).format("hh:mm:ss"))
-                .input('endTime', moment(endTime.toString()).format("hh:mm:ss"))
+                .input('startDate', moment(startDate).format("YYYY-MM-DD"))
+                .input('endDate',  moment(endDate).format("YYYY-MM-DD"))
+                .input('startTime', startTime)
+                .input('endTime', endTime)
                 .execute('GET_TEMP');
 
             const isValid = result && Array.isArray(result.recordset)
@@ -24,13 +25,25 @@ module.exports = function(route, db){
 
             if (isValid) {
                 const parseData = result.recordset.map(it => {
-            
-                    const date = it.date ? moment(it.date.toString()).format("DD-MM-YYYY") : null;
-                    const time = it.time ? moment(it.time.toString()).format("hh:mm") : null;
+                    const date = it.date ? moment(it.date).format("DD-MM-YYYY") : null;
 
-                    return { ...it, date, time };
+                    if (!it.time) return {...it, date, time: null};
+
+                    const arrTime = JSON.stringify(it.time).split("");
+                    const pivot = arrTime.findIndex(it => it && it === "T");
+                    const time = pivot !== -1 ? arrTime.splice(pivot + 1, 5).join("").replace(/\,/gi,"") : null;
+
+                    const timeNumber = Number(time.replace(/\D+/gi, ""));
+                    const startTimeNumber = Number(startTime.replace(/\D+/gi, ""));
+                    const endTimeNumber = Number(endTime.replace(/\D+/gi, ""));
+
+                    const isValidInterspace = startTimeNumber < timeNumber && endTimeNumber > timeNumber;
+                    const isValidTime = /\d\:\d/.test(time) && isValidInterspace;
+
+                    if (!isValidTime) return null;
+                    return { ...it, date, time: time };
                 });
-
+                
                 return res.status(200).json(JSON.stringify(parseData));
             }
             else return res.sendStatus(404);

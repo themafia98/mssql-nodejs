@@ -1,6 +1,11 @@
-USE sensorsdb
+USE [sensorsdb]
 GO
-	CREATE PROCEDURE GET_TEMP
+/****** Object:  StoredProcedure [dbo].[GET_TEMP]    Script Date: 12.01.2020 20:50:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+	ALTER PROCEDURE [dbo].[GET_TEMP]
 	@startDate NCHAR(25),
 	@endDate NCHAR(25),
 	@startTime NCHAR(25),
@@ -13,5 +18,6 @@ GO
 		FROM 
 			dbo.Sensors INNER JOIN dbo.Indications ON dbo.Sensors.numS=dbo.Indications.numS
 		WHERE 
-			dbo.Indications.dateInd BETWEEN @startDate AND @endDate;
+			(dbo.Indications.timeInd BETWEEN @startTime AND @endTime) AND 
+			(dbo.Indications.dateInd BETWEEN @startDate AND @endDate);
 	END;
