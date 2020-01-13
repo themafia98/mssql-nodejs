@@ -12,7 +12,7 @@
 </div>
 <div id="chartsContainer"></div>
 <section class="tables">
-    <% if (Array.isArray(sensors) && sensors.length) {%>
+    <% if (sensors && Array.isArray(sensors) && sensors.length) {%>
         <p class="title">dbo.Sensors</p>
     <div class="sensors table">
         <% for (let i = 0; i < sensors.length; i++){ %>
@@ -26,7 +26,7 @@
         <%} %>
     </div>
     <%} %>
-    <% if (Array.isArray(indications) && indications.length) {%>
+    <% if (indications && Array.isArray(indications) && indications.length) {%>
         <p class="title">dbo.Indications</p>
     <div class="indications table">
         <% for (let i = 0; i < indications.length; i++){ %>
@@ -40,7 +40,7 @@
         <%} %>
     </div>
     <%} %>
-    <% if (Array.isArray(regions) && regions.length) {%>
+    <% if (regions && Array.isArray(regions) && regions.length) {%>
         <p class="title">dbo.Regions</p>
     <div class="regions table">
         <% for (let i = 0; i < regions.length; i++){ %>

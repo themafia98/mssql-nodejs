@@ -21,13 +21,24 @@ module.exports = (app, db) => {
             }
             
             parseIndications = Array.isArray(indications.recordsets[0]) ? indications.recordsets[0].map(it => {
-                
                 const dateInd = it.dateInd ? moment(it.dateInd.toString()).format("DD-MM-YYYY") : null;
-                const timeInd = it.timeInd ? moment(it.timeInd.toString()).format("hh:mm") : null;
+                
+                if (!it.timeInd) return {...it, dateInd, time: null};
+               
+                    const arrTime = JSON.stringify(it.timeInd).split("");
+                    const pivot = arrTime.findIndex(it => it && it === "T");
+                    const time = pivot !== -1 ? arrTime.splice(pivot + 1, 5).join("").replace(/\,/gi,"") : null;
+
+                    if (!time) return {...it, dateInd, time: null};
+
+                    const isValidTime = /\d\:\d/.test(time);
+
+                    if (!isValidTime) return {...it, dateInd, time: null};
+
                 return {
                     ...it,
                     dateInd,
-                    timeInd,
+                    timeInd: time,
                 } 
             }) : [];
     
