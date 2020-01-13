@@ -10,6 +10,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         const content = document.querySelector(".procedureResult");
+        const chartsContainer = document.getElementById("chartsContainer");
 
         document.addEventListener("click", async (event) => {
 
@@ -22,15 +23,18 @@
                     const body = JSON.parse(await response.json());
                     event.target.removeAttribute("disabled");
                     content.innerHTML = body.result ? body.result : JSON.stringify(body);
+                    chartsContainer.innerHTML = "";
                 }
 
                 } catch (error){
                     event.target.removeAttribute("disabled");
                     setError(error, event, content);
+                    chartsContainer.innerHTML = "";
                 }
                 return;
             } else if (event.target.className === "reset"){
                 content.innerHTML = "NO DATA";
+                chartsContainer.innerHTML = "";
             } else if (event.target.className === "loadTemp"){
                 try {
 
@@ -72,11 +76,30 @@
                                 </div>
                                 `;
                         },"") : "Not found";
+
+                        let data = [
+                            {
+                              x: result.map(it => `${it.date.trim()} ${it.time.trim()}`),
+                              y: result.map(it => it.temp),
+                              type: 'scatter'
+                            }
+                          ];
+
+                        let layout = {
+                            showlegend: false
+                        };
+
+                        let plotConfig = {
+                            displayModeBar: false
+                        }
+                          
+                          Plotly.newPlot('chartsContainer', data, layout, plotConfig);
                     }
 
                 } catch(error){
                     event.target.removeAttribute("disabled");
                     setError(error, event, content);
+                    chartsContainer.innerHTML = "";
                 }
             } else if (event.target.className === "loadMaxMinTemp"){
                 try {
@@ -101,20 +124,49 @@
                     if (response.ok){
                         const result = JSON.parse(await response.json());
                         event.target.removeAttribute("disabled");
-                        content.innerHTML = result.reduce((html, current) => {
-                            const newHtml = html + current.minTemp && current.maxTemp ? `
-                            <div>
-                                <p>minTemp: ${current.minTemp.trim()}</p>
-                                <p>maxTemp: ${current.maxTemp.trim()}</p>
-                            </div>
-                            ` : "Not found";
-                            return newHtml;
+                        let isInitNotFound = false;
+                        content.innerHTML = result.reduce((html, collection) => {
+                            //if (!Array.isArray(collection)) return html + "<div>Bad request</div>";
+                            const current = collection;
+                       
+                            if (!current || !current.timeInd  || !current.name) {
+                                const returnHtml = !isInitNotFound ? html + "<div>Not found</div>" : html;
+                                isInitNotFound = true;
+                                return returnHtml;
+                            }
+                            const currentKeys = Object.keys(current);
+
+                            const isMax = currentKeys.includes("maxTemp");
+                            const isMin = currentKeys.includes("minTemp");
+
+                            if (isMax && current && current.name){
+                                return html +  `
+                                    <div>
+                                        <p>name: ${current.name.trim()}</p>
+                                        <p>maxTemp: ${current.maxTemp}</p>
+                                        <p>time: ${current.timeInd}</p>
+                                    </div>
+                                `;
+                            } else if (isMin && current && current.name){
+                                return html + `
+                                    <div>
+                                        <p>name: ${current.name.trim()}</p>
+                                        <p>minTemp: ${current.minTemp}</p>
+                                        <p>time: ${current.timeInd}</p>
+                                    </div>
+                                `;
+                            }
+
+                            return html;
                         },"");
+                        chartsContainer.innerHTML = "";
+                        event.target.removeAttribute("disabled");
                     }
 
                 } catch(error){
                     event.target.removeAttribute("disabled");
                     setError(error, event, content);
+                    chartsContainer.innerHTML = "";
                 }
             } else if (event.target.className === "loadLocation"){
                 try {
@@ -125,6 +177,7 @@
                     const validBody = {
                         regionNumber
                     };
+
                     event.target.setAttribute("disabled", true);
                     const response = await fetch("/api/sensorLocation", 
                         { method: "POST", body: JSON.stringify(validBody), 
@@ -146,11 +199,13 @@
                             `;
                             return newHtml;
                         },"") : "Not found";
+                        chartsContainer.innerHTML = "";
                     }
 
                 } catch(error){
                     event.target.removeAttribute("disabled");
                     setError(error, event, content);
+                    chartsContainer.innerHTML = "";
                 }
             }
         }, false);

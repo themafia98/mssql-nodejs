@@ -10,10 +10,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.static(__dirname + "/static"));
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.engine("ejs", require("ejs").__express);
 app.set("view engine", "ejs");
@@ -30,7 +27,3 @@ app.use("/api", router);
 /** init controllers */
 root(app, db);
 api(router, db);
-
-
-
-

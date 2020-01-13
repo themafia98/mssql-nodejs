@@ -72,12 +72,64 @@ module.exports = function(route, db){
                 .input('startTime', startTime)
                 .input('endTime', endTime)
                 .execute('GET_MIN_MAX_TEMP');
+            
+                const pareRecords = result.recordsets.map(arr => {
+                    if (!arr[0]) return null;
+                    const isMax = Object.keys(arr[0]).includes("maxTemp")  ? true : false;
+ 
+                    const props = isMax ? { 
+                        maxTemp: arr[0].maxTemp ? arr[0].maxTemp : null 
+                    } : { 
+                        minTemp: arr[0].minTemp ? arr[0].minTemp : null 
+                    }
 
-            const isValid = result && Array.isArray(result.recordset)
+                    const date = arr[0].timeInd ? JSON.stringify(arr[0].timeInd) : null;
+
+                    if (!date){
+                        return  {
+                            name: arr[0].name ? arr[0].name : null,
+                            ...props,
+                            timeInd: null
+                        }
+                    }
+
+                    const arrTime = JSON.stringify(arr[0].timeInd).split("");
+                    const pivot = arrTime.findIndex(it => it && it === "T");
+                    const time = pivot !== -1 ? arrTime.splice(pivot + 1, 5).join("").replace(/\,/gi,"") : null;
+
+                    if (!time){
+                        return  {
+                            name: arr[0].name ? arr[0].name : null,
+                            ...props,
+                            timeInd: date
+                        }
+                    }
+
+                    const timeNumber = Number(time.replace(/\D+/gi, ""));
+                    const startTimeNumber = Number(startTime.replace(/\D+/gi, ""));
+                    const endTimeNumber = Number(endTime.replace(/\D+/gi, ""));
+
+                    const isValidInterspace = startTimeNumber < timeNumber && endTimeNumber > timeNumber;
+                    const isValidTime = /\d\:\d/.test(time) && isValidInterspace;
+
+                    return  {
+                            name: arr[0].name ? arr[0].name : null,
+                            ...props,
+                            timeInd: isValidTime ? time : null
+                        }
+                }).filter((item,index, arr) => {
+                    if (index !== 0){
+                        return item && item.name !== arr[0].name;
+                    }
+                    return item;
+                });
+
+
+            const isValid = result && Array.isArray(pareRecords)
             db.close();
             
             if (isValid) {
-                return res.status(200).json(JSON.stringify(result.recordset));
+                return res.status(200).json(JSON.stringify(pareRecords));
             }
             else return res.sendStatus(404);
 
