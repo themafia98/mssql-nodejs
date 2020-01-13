@@ -85,7 +85,7 @@
                                     const dateB = new Date(arrB[2], Number(arrB[1]) - 1, arrB[0]);
                                     const dateA = new Date(arrA[2], Number (arrA[1]) - 1, arrA[0]);
                                   return dateA - dateB;
-                              }).map(it => { console.log(it); return `${it.date.trim()} ${it.time.trim()}`; }),
+                              }).map(it => `${it.date.trim()} ${it.time.trim()}`),
                               y: result.map(it => it.temp),
                               type: 'scatter'
                             }
