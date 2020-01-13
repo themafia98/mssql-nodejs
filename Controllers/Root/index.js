@@ -44,7 +44,7 @@ module.exports = (app, db) => {
     
             return res.render("index", {
                     error: null, 
-                    indications: parseIndications,
+                    indications: Array.isArray(parseIndications) ? parseIndications : [],
                     regions: Array.isArray(regions.recordsets[0]) ? regions.recordsets[0] : [],
                     sensors: Array.isArray(sensors.recordsets[0]) ? sensors.recordsets[0] : [],
             });
