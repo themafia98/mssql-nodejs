@@ -20,9 +20,9 @@ GO
 				dbo.Sensors.name as name, dbo.Indications.numS
 				FROM dbo.Indications, dbo.Sensors
 				GROUP BY dbo.Indications.temp, dbo.Indications.timeInd, dbo.Indications.numS,
-				dbo.Sensors.name
+					dbo.Sensors.name
 			) AS newTable ON
-			newTable.numS = dbo.Sensors.numS AND dbo.Sensors.name = newTable.name
+				newTable.numS = dbo.Sensors.numS AND dbo.Sensors.name = newTable.name
 			WHERE newTable.timeInd BETWEEN @startTime AND @endTime
 			ORDER BY maxTemp DESC;
 
@@ -33,9 +33,9 @@ GO
 				dbo.Sensors.name AS name, dbo.Indications.numS
 				FROM dbo.Indications, dbo.Sensors
 				GROUP BY dbo.Indications.temp, dbo.Indications.timeInd, dbo.Indications.numS,
-				dbo.Sensors.name
+					dbo.Sensors.name
 			) AS newTableMin ON
-			newTableMin.numS = dbo.Sensors.numS AND dbo.Sensors.name = newTableMin.name
+				newTableMin.numS = dbo.Sensors.numS AND dbo.Sensors.name = newTableMin.name
 			WHERE newTableMin.timeInd BETWEEN @startTime AND @endTime
 			ORDER BY minTemp ASC;
 	END;
