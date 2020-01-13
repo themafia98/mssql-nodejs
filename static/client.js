@@ -93,7 +93,9 @@
                             displayModeBar: false
                         }
                           
-                          Plotly.newPlot('chartsContainer', data, layout, plotConfig);
+                        if (data[0].x.length){
+                          return Plotly.newPlot('chartsContainer', data, layout, plotConfig);
+                        } else chartsContainer.innerHTML = "";
                     }
 
                 } catch(error){
